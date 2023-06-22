@@ -21,5 +21,11 @@ knitr::opts_chunk$set(
 ## Goals of this repository:
 
 * Experiment with new types of visualizations, workstreams. Mix, match, experiment and explore better ways to represent various AQLI datasets.
-* We are always experimenting with data and people from time to time request the scripts that went into that process. So, we thought that it's a great idea to share that! 
-* In this repository, you'll find all kinds of different work streams that are being experimented with at AQLI. They might not be mainstream as of now, but they might become mainstream in the near future. Even if they don't, that's totally fine because the idea here is to experiment and not worry to much about a finished end product.
+
+* In this repository, you'll different AQLI experimental workstreams and outreach material. They might not be mainstream as of now, but they might become mainstream in the near future. Even if they don't, that's totally fine because the idea here is to experiment and not worry to much about a finished end product.
+
+* All code uses the AQLI 2020 global data, that is published on the [AQLI website](https://aqli.epic.uchicago.edu/the-index/). The global CSV can be found in the `data.external` folder at the root of this repo. The corresponding AQLI data dictionary can also be found at the root (file named: `aqli_data_dictionary.txt`).
+
+* Explore our other repositories on our [organizational GitHub page](https://github.com/aqli-epic).
+
+* For questions, feel free to reach out to Aarsh Batra at: aarshbatra@uchicagotrust.org.

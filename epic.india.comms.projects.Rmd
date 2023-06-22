@@ -1,0 +1,96 @@
+---
+title: "AQLI outreach"
+author: "Aarsh"
+date: "2023-06-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# load in libraries (install first if needed)
+
+```{r}
+# libraries
+library(readr)
+library(dplyr)
+library(stringr)
+library(magrittr)
+library(ggplot2)
+library(readr)
+library(tidytext)
+library(tidyr)
+library(tidyverse)
+library(sf)
+library(usethis)
+library(devtools)
+library(data.table)
+library(svglite)
+```
+
+# load in the latest AQLI June 2022 global dataset
+
+```{r}
+
+# aqli 2020 dataset (refer to AQLI data dictionary at: )
+aqli_2020_global_data <- read_csv("./data.external/color_2020.csv")
+
+```
+
+# Life years lost min, average, max graph for 10 most populous states of India
+
+```{r}
+
+#  state wise min, average and max lyl dataset for 10 most populous states
+lyl_range_df <- aqli_2020_global_data %>%
+    filter(country == "India") %>%
+  group_by(name_1) %>%
+    mutate(pop_weights = population/sum(population, na.rm = TRUE), 
+           pm2020_pop_weighted = pm2020*pop_weights) %>%
+  summarise(min_lyl = round(min(llpp_who5_2020, na.rm = TRUE), 1),
+            max_lyl = round(max(llpp_who5_2020, na.rm = TRUE), 1),
+            avg_pm2.5_2020 = sum(pm2020_pop_weighted, na.rm = TRUE),
+            avg_lyl = round((avg_pm2.5_2020 - 5)*0.098, 1),
+            range_lyl = max_lyl - min_lyl,
+            total_population = sum(population, na.rm = TRUE)) %>%
+    slice_max(total_population, n = 10)
+  
+
+# plot lyl range graph (click on zoom in the plots window in R-Studio to view the plot)
+lyl_range_plt <- lyl_range_df  %>%
+  ggplot(aes(x = forcats::fct_reorder(name_1, total_population), y = min_lyl)) +
+  geom_point(aes(color = "Minimum life years lost"), size = 3) +
+  geom_point(aes(y = max_lyl, color = "Maximum life years lost"), size = 3) +
+  geom_point(aes(y = avg_lyl, color = "Average life years lost"), size = 3) +
+  geom_segment(aes(xend = name_1, yend = max_lyl),
+               linetype = "dashed", color = "black") +
+  scale_color_manual(name = "", values = c("Minimum life years lost" = "cornflowerblue",
+                                           "Average life years lost" = "darkgrey",
+                                                   "Maximum life years lost" = "darkred"
+                                           )) +
+  labs(title = expression("Minimum, Average and Maximum Life years lost to" ~ PM[2.5] ~ "Air Pollution"),
+       x = "State", y = "Life years lost", 
+         caption = str_wrap("*Life years lost are calculated using the satellite derived PM2.5 data underlying the June 2022, AQLI Annual Report. In this figure, AQLI reports annual average PM2.5 and life years lost relative to the WHO annual average PM2.5 guideline. More details on AQLI methodology can be found here: https://aqli.epic.uchicago.edu/about/methodology/.", width = 100), 
+       subtitle = "(Ten most populated states of India)") +
+  coord_flip() +
+  theme(legend.position = "bottom",
+        legend.box.background = element_rect(color = "black"),
+        plot.title = element_text(hjust = 0.5)) +
+  scale_y_continuous(breaks = seq(0, 11, 1), limits = c(0, 11)) +
+    guides(color = guide_legend(reverse = TRUE)) +
+  ggthemes::theme_tufte() +
+    theme(legend.position = "bottom", 
+        axis.title.y = element_text(margin = margin(r = 0.8, unit = "cm"), size = 16), 
+        axis.title.x = element_text(margin = margin(t = 0.8, b = 1, unit = "cm"), size = 16), 
+        axis.text = element_text(size = 14), 
+        plot.title = element_text(hjust = 0.5, size = 18, margin = margin(b = 0.3, unit = "cm")),
+        legend.box.background = element_rect(color = "black"),
+        strip.text = element_text(size = 18, margin = margin(t = 1, b = 0.5, unit = "cm")),
+        legend.title = element_text(size = 16), 
+        legend.text = element_text(size = 14), 
+        plot.subtitle = element_text(size = 12, hjust = 0.5, margin = margin(b = 0.8, unit = "cm"), face = "italic"),
+        plot.caption = element_text(hjust = 0, size = 9, face = "italic", margin = margin(t = 1.3, unit = "cm")), 
+        plot.background = element_rect(fill = "white", color = "white"))
+
+```

@@ -1,0 +1,36 @@
+AQLI Data Explorer: Data Dictionary
+===================================
+
+objectid_color: unique identifier column for the given gadm level "x" (0, 1, 2)
+
+iso_alpha3: 3 digit country code
+
+country: country name (corresponding to a gadm level 0 region)
+
+name_1: state/province/etc name (corresponding to a gadm level 1 region)
+
+name_2: county/district/prefecture/etc name (corresponding to a gadm level 2 region)
+
+population: population of the region in question (source: LandScan)
+
+whostandard: WHO PM2.5 annual average guideline
+
+natstandard: National PM2.5 annual average standard
+
+pmxxxx: population weighted annual average pm2.5 for year "xxxx"
+
+llpp_who5_xxxx: Life years lost in year "xxxx" relative to the WHO PM2.5 annual average guideline of 5 micrograms per cubic meter.
+
+llpp_nat_xxxx: Life years lost relative to the National PM2.5 annual average standard
+
+
+Data Sources and Methodology
+============================
+
+Underlying population data: https://landscan.ornl.gov/
+
+Satellite derived PM2.5 data: https://sites.wustl.edu/acag/datasets/surface-pm2-5/
+
+GADM shapefiles (level 0, 1, 2): https://gadm.org/
+
+AQLI Methodology: https://aqli.epic.uchicago.edu/about/methodology/   
