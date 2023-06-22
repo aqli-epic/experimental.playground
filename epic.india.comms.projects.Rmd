@@ -67,8 +67,9 @@ lyl_range_plt <- lyl_range_df  %>%
                linetype = "dashed", color = "black") +
   scale_color_manual(name = "", values = c("Minimum life years lost" = "cornflowerblue",
                                            "Average life years lost" = "darkgrey",
-                                                   "Maximum life years lost" = "darkred"
-                                           )) +
+                                                   "Maximum life years lost" = "darkred"), 
+                            breaks = c("Minimum life years lost", "Average life years lost", "Maximum life years lost"),
+                     labels = c("Minimum life years lost", "Average life years lost", "Maximum life years lost")) +
   labs(title = expression("Minimum, Average and Maximum Life years lost to" ~ PM[2.5] ~ "Air Pollution"),
        x = "State", y = "Life years lost", 
          caption = str_wrap("*Life years lost are calculated using the satellite derived PM2.5 data underlying the June 2022, AQLI Annual Report. In this figure, AQLI reports annual average PM2.5 and life years lost relative to the WHO annual average PM2.5 guideline. More details on AQLI methodology can be found here: https://aqli.epic.uchicago.edu/about/methodology/.", width = 100), 
@@ -78,7 +79,6 @@ lyl_range_plt <- lyl_range_df  %>%
         legend.box.background = element_rect(color = "black"),
         plot.title = element_text(hjust = 0.5)) +
   scale_y_continuous(breaks = seq(0, 11, 1), limits = c(0, 11)) +
-    guides(color = guide_legend(reverse = TRUE)) +
   ggthemes::theme_tufte() +
     theme(legend.position = "bottom", 
         axis.title.y = element_text(margin = margin(r = 0.8, unit = "cm"), size = 16), 
@@ -92,5 +92,6 @@ lyl_range_plt <- lyl_range_df  %>%
         plot.subtitle = element_text(size = 12, hjust = 0.5, margin = margin(b = 0.8, unit = "cm"), face = "italic"),
         plot.caption = element_text(hjust = 0, size = 9, face = "italic", margin = margin(t = 1.3, unit = "cm")), 
         plot.background = element_rect(fill = "white", color = "white"))
+
 
 ```
